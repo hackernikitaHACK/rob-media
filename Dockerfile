@@ -1,18 +1,18 @@
 FROM ubuntu:latest
 
-# Обновляем систему
+# Обновление системы
 RUN apt-get update && apt-get upgrade -y
 
-# Устанавливаем необходимые пакеты
+# Установка необходимых пакетов
 RUN apt-get install -y build-essential libxml2-dev libxslt-dev curl wget git
 
-# Скачиваем и устанавливаем Icecast
+# Загрузка и установка Icecast
 RUN wget https://downloads.xiph.org/releases/icecast/icecast-2.4.4.tar.gz
 RUN tar xzvf icecast-2.4.4.tar.gz
 WORKDIR /icecast-2.4.4
 RUN ./configure && make && make install
 
-# Копируем конфигурационный файл
+# Копирование конфигурационного файла
 COPY icecast.xml /etc/icecast2/icecast.xml
 
 # Запуск сервера
