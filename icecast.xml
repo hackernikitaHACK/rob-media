@@ -1,7 +1,4 @@
 <icecast>
-    <location>ROB FM</location>
-    <admin>kozulinnikita970@gmail.com</admin>
-    
     <limits>
         <clients>100</clients>
         <sources>2</sources>
@@ -12,41 +9,47 @@
         <burst-on-connect>1</burst-on-connect>
         <burst-size>65535</burst-size>
     </limits>
-    
+
     <authentication>
-        <!-- Change to actual passwords -->
-        <source-password>changeme</source-password>
-        <relay-password>changeme</relay-password>
-        <admin-user>admin</admin-user>
-        <admin-password>rob123</admin-password>
+        <admin>
+            <username>admin</username>
+            <password>admin-password</password>
+        </admin>
+        <source>
+            <password>source-password</password>
+        </source>
+        <relay>
+            <password>relay-password</password>
+        </relay>
     </authentication>
-    
-    <hostname>0.0.0.0</hostname>
+
+    <hostname>localhost</hostname>
     <listen-socket>
         <port>8000</port>
     </listen-socket>
-    
-    <mount>
-        <mount-name>/stream.mp3</mount-name>
-        <max-listeners>100</max-listeners>
-    </mount>
-    
+
     <fileserve>1</fileserve>
     <paths>
+        <basedir>/usr/share/icecast</basedir>
         <logdir>/var/log/icecast</logdir>
         <webroot>/usr/share/icecast/web</webroot>
         <adminroot>/usr/share/icecast/admin</adminroot>
+        <pidfile>/run/icecast.pid</pidfile>
         <alias source="/" destination="/status.xsl"/>
     </paths>
-    
+
     <logging>
         <accesslog>access.log</accesslog>
         <errorlog>error.log</errorlog>
-        <loglevel>4</loglevel> <!-- 4 for debug logs -->
+        <loglevel>3</loglevel>
         <logsize>10000</logsize>
     </logging>
-    
+
     <security>
         <chroot>0</chroot>
+        <changeowner>
+            <user>icecast</user>
+            <group>icecast</group>
+        </changeowner>
     </security>
 </icecast>
