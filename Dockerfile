@@ -1,4 +1,3 @@
-# Используем официальный образ Debian в качестве базового
 FROM debian:bullseye
 
 # Устанавливаем необходимые пакеты
@@ -17,11 +16,16 @@ EXPOSE 8000
 # Копируем директорию для логов и веб-ресурсов
 RUN mkdir -p /app/logs /app/web /app/admin
 
+# Создаем группу и пользователя для Icecast (не запускать от root)
+RUN groupadd -r icecast && useradd -r -g icecast icecast
+
+# Применяем права владельца для конфигурации Icecast
+RUN chown -R icecast:icecast /etc/icecast2 /app
+
 # Устанавливаем рабочую директорию
 WORKDIR /etc/icecast2
 
-# Запуск Icecast с указанным конфигом
+# Запускаем Icecast от имени пользователя icecast
+USER icecast
 CMD ["icecast2", "-c", "/etc/icecast2/icecast.xml"]
-
-
 
