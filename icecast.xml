@@ -14,6 +14,7 @@
         <admin>
             <username>admin</username>
             <password>admin-password</password>
+            <email>kozulinnikita970@gmail.com</email>
         </admin>
         <source>
             <password>source-password</password>
@@ -23,24 +24,28 @@
         </relay>
     </authentication>
 
-    <hostname>localhost</hostname>
+    <hostname>0.0.0.0</hostname>
+    <location>Worldwide</location>
+
     <listen-socket>
         <port>8000</port>
     </listen-socket>
 
     <fileserve>1</fileserve>
+
     <paths>
-        <basedir>/usr/share/icecast</basedir>
-        <logdir>/var/log/icecast</logdir>
-        <webroot>/usr/share/icecast/web</webroot>
-        <adminroot>/usr/share/icecast/admin</adminroot>
-        <pidfile>/run/icecast.pid</pidfile>
+        <basedir>/app</basedir>
+        <logdir>/app/logs</logdir>
+        <webroot>/app/web</webroot>
+        <adminroot>/app/admin</adminroot>
+        <pidfile>/tmp/icecast.pid</pidfile>
+        <mimetypes>/app/mime.types</mimetypes>
         <alias source="/" destination="/status.xsl"/>
     </paths>
 
     <logging>
-        <accesslog>access.log</accesslog>
-        <errorlog>error.log</errorlog>
+        <accesslog>/app/logs/access.log</accesslog>
+        <errorlog>/app/logs/error.log</errorlog>
         <loglevel>3</loglevel>
         <logsize>10000</logsize>
     </logging>
@@ -48,8 +53,8 @@
     <security>
         <chroot>0</chroot>
         <changeowner>
-            <user>icecast</user>
-            <group>icecast</group>
+            <user>nobody</user>
+            <group>nogroup</group>
         </changeowner>
     </security>
 </icecast>
