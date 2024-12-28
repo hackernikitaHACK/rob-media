@@ -1,18 +1,23 @@
 FROM debian:bullseye
 
-# Устанавливаем Icecast и необходимые пакеты
+# Устанавливаем необходимые утилиты
 RUN apt-get update && apt-get install -y \
-    icecast2 \
+    curl \
+    nano \
+    vim \
+    sudo \
+    openssh-server \
     && rm -rf /var/lib/apt/lists/*
 
-# Копируем конфигурационные файлы в контейнер
-COPY icecast.xml /etc/icecast2/icecast.xml
+# Настраиваем SSH
+RUN mkdir /var/run/sshd
+RUN echo 'root:rootpassword' | chpasswd
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
-# Указываем рабочую директорию
-WORKDIR /etc/icecast2
+# Открываем порт для SSH
+EXPOSE 22
 
-# Открываем порт 8000
-EXPOSE 8000
+# Запуск SSH сервера
+CMD ["/usr/sbin/sshd", "-D"]
 
-# Запуск Icecast с конфигурационным файлом
-CMD ["icecast2", "-c", "/etc/icecast2/icecast.xml"]
